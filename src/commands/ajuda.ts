@@ -1,16 +1,18 @@
-const { prefix } = require("../config.json");
-const fs = require("fs");
+import { prefix } from "../config.json";
+import fs from "fs";
 
-function getCommands(message, args) {
-  commands = fs.readdirSync(__dirname);
+function getCommands(message:any, args:string[]) {
+  const commands:string[] = fs.readdirSync(__dirname);
   if (!args.length) {
-    let regularCommands = [];
-    let moderationCommands = [];
+    let regularCommands:string[] = [];
+    let moderationCommands:string[] = [];
+    // checks command type and adds it to the appropriate array
+    let cmd:any;
     for (let command of commands) {
-      let cmd = require(`${__dirname}/${command}`);
-      if (cmd.commandType == "regular") {
+      cmd = require(`${__dirname}/${command}`);
+      if (cmd.commandType === "regular") {
         regularCommands.push(`\`${cmd.usage}\` ${cmd.description}`);
-      } else if (cmd.commandType == "mod") {
+      } else if (cmd.commandType === "mod") {
         moderationCommands.push(`\`${cmd.usage}\` ${cmd.description}`);
       }
     }
@@ -18,10 +20,11 @@ function getCommands(message, args) {
       embed: {
         color: 0xbd93f9,
         title: module.exports.name.toUpperCase(),
-              author: {
-                      author: "RaphGL",
-                      icon_url: "https://avatars0.githubusercontent.com/u/28673457?s=460&u=1ebc812696254e1b08f97498393b409fc930362e&v=4",
-              },
+        author: {
+          author: "RaphGL",
+          icon_url:
+            "https://avatars0.githubusercontent.com/u/28673457?s=460&u=1ebc812696254e1b08f97498393b409fc930362e&v=4",
+        },
         fields: [
           {
             name: "Comandos normais",
@@ -36,9 +39,9 @@ function getCommands(message, args) {
     });
   } else {
     for (let command of commands) {
-      for (arg of args) {
+      for (let arg of args) {
         let cmd = require(`${__dirname}/${command}`);
-        if (arg == cmd.name) {
+        if (arg === cmd.name) {
           message.channel.send({
             embed: {
               color: 0xbd93f9,
@@ -64,7 +67,7 @@ module.exports = {
   usage: `${prefix}ajuda <comando?>`,
   commandType: "regular",
   guildOnly: false,
-  execute(message, args) {
+  execute(message:any, args:string[]) {
     getCommands(message, args);
   },
 };

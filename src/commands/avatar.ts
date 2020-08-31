@@ -1,4 +1,4 @@
-const { prefix } = require("../config.json");
+import { prefix } from '../config.json';
 
 module.exports = {
   name: "avatar",
@@ -6,8 +6,8 @@ module.exports = {
   usage: `${prefix}avatar <usuário?>`,
   commandType: "regular",
   guildOnly: false,
-  execute(message, args) {
-    embedbox = {
+  execute(message: any, args: string[]) {
+    let embedbox = {
       embed: {
         color: 0xbd93f9,
         title: message.author.tag,
@@ -30,3 +30,4 @@ module.exports = {
     }
   },
 };
+

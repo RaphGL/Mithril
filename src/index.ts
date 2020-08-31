@@ -1,13 +1,14 @@
-const Discord = require("discord.js");
-const config = require("./config.json");
-const fs = require("fs");
+import Discord from 'discord.js';
+import config from './config.json';
+import fs from 'fs';
 
 const client = new Discord.Client();
 
-const commandFiles = fs.readdirSync(`${__dirname}/commands`);
+const commandFiles:string[] = fs.readdirSync(`${__dirname}/commands`);
+// creates a collection of commands from files in commands dir
 const commands = new Discord.Collection();
 for (let file of commandFiles) {
-  const command = require(`${__dirname}/commands/${file}`);
+  const command:any = require(`${__dirname}/commands/${file}`);
   commands.set(command.name, command);
 }
 
@@ -22,10 +23,10 @@ client.on("message", (message) => {
   }
 
   // Parses user messages
-  const args = message.content.slice(config.prefix.length).trim().split(/ +/);
-  const command = args.shift().toLowerCase();
+  const args:string[] = message.content.slice(config.prefix.length).trim().split(/ +/);
+  const command = args.shift()?.toLowerCase();
   try {
-    cmd = commands.get(command);
+    const cmd:any = commands.get(command);
     // Ignores command and alerts the user that action can't be performed outside of servers
     if (cmd.guildOnly && message.channel.type == "dm") {
       message.channel.send(

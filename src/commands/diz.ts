@@ -1,4 +1,5 @@
-const { prefix } = require("../config.json");
+import { prefix } from "../config.json";
+
 module.exports = {
   name: "diz",
   description: "Manda uma mensagem através do bot",
@@ -6,8 +7,8 @@ module.exports = {
   commandType: "regular",
   hasArgs: true,
   guildOnly: false,
-  execute(message, args) {
-    args = args.join(" ");
-    message.channel.send(args);
+  execute(message: any, args: string[]) {
+    const arg: string = args.join(" ");
+    message.channel.send(arg);
   },
 };
