@@ -3,8 +3,8 @@ import Discord from "discord.js";
 
 module.exports = {
   name: "ban",
-  description: "Banir o usuário do servidor",
-  usage: `${prefix}ban <usuário> ...`,
+  description: "Ban a user from the server",
+  usage: `${prefix}ban <user> <reason>`,
   hasArgs: true,
   commandType: "mod",
   guildOnly: true,
@@ -13,22 +13,27 @@ module.exports = {
       try {
         let banUser: any = message.mentions.users.first();
         let banReason: string = args.slice(1).join(" ");
-        message.guild.member(banUser).ban({reason: banReason});
         const embed = new Discord.MessageEmbed();
+        if (message.author.id == banUser.id) {
+          message.channel.send("You cannot ban yourself.");
+          return;
+        } else {
+          message.guild.member(banUser).ban({ reason: banReason });
+        }
         if (args.length > 1) {
           embed
             .setColor("#bd93f9")
-            .setTitle(`${banUser.tag} foi banido`)
+            .setTitle(`${banUser.tag} was banned`)
             .addField("Motivo:", `${banReason}`, true)
             .setThumbnail(banUser.displayAvatarURL());
         } else {
           embed
             .setColor("#bd93f9")
-            .setDescription(`**${banUser.tag}** foi banido`)
+            .setDescription(`**${banUser.tag}** was banned`);
         }
         message.channel.send(embed);
       } catch {
-        message.channel.send("Não tenho permissão para banir membros!");
+        message.channel.send("I do not have permissions to ban members!");
       }
     }
   },

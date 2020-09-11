@@ -31,25 +31,25 @@ client.on("message", function (message) {
         var cmd = commands.get(command);
         // Ignores command and alerts the user that action can't be performed outside of servers
         if (cmd.guildOnly && message.channel.type == "dm") {
-            message.channel.send("Este comando não pode ser usado fora de servidores");
+            message.channel.send("You have to be in a server to use this command.");
             return;
         }
         // Executes command's function
         if (args.length === 0 && cmd.hasArgs == true) {
-            message.channel.send("Nenhum argumento foi dado, para usar este comando use: `" +
+            message.channel.send("No arguments were given, to use this command do: `" +
                 cmd.usage +
                 "`");
             return;
         }
         else {
-            cmd.execute(message, args);
+            cmd.execute(message, args, client);
             return;
         }
     }
     catch (error) {
         // Alerts the user that the command is invalid
         console.error(error);
-        message.channel.send("O comando que digitou é inválido.");
+        message.channel.send("Invalid command.");
     }
     return;
 });

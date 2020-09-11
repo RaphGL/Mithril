@@ -2,8 +2,8 @@ import { prefix } from '../config.json';
 
 module.exports = {
   name: "avatar",
-  description: "Mostra o avatar do usuário, se um usuário não é mencionado o autor da mensagem é usado como argumento",
-  usage: `${prefix}avatar <usuário?>`,
+  description: "Sends the user's profile picture",
+  usage: `${prefix}avatar <user?>`,
   commandType: "regular",
   guildOnly: false,
   execute(message: any, args: string[]) {

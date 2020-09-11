@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var config_json_1 = require("../config.json");
 module.exports = {
     name: "avatar",
-    description: "Mostra o avatar do usuário, se um usuário não é mencionado o autor da mensagem é usado como argumento",
-    usage: config_json_1.prefix + "avatar <usu\u00E1rio?>",
+    description: "Sends the user's profile picture",
+    usage: config_json_1.prefix + "avatar <user?>",
     commandType: "regular",
     guildOnly: false,
     execute: function (message, args) {

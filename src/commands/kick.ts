@@ -3,32 +3,37 @@ import Discord from "discord.js";
 
 module.exports = {
   name: "kick",
-  description: "Expulsar o usuário do servidor",
-  usage: `${prefix}kick <usuário> ...`,
+  description: "Kick a user from the user",
+  usage: `${prefix}kick <user> <reason>`,
   hasArgs: true,
   commandType: "mod",
   guildOnly: true,
   execute(message: any, args: string[]) {
     if (message.member.hasPermission("KICK_MEMBERS")) {
       try {
-        let banUser: any = message.mentions.users.first();
-        let banReason: string = args.slice(1).join(" ");
-        message.guild.member(banUser).kick({reason: banReason});
+        let kickUser: any = message.mentions.users.first();
+        let kickReason: string = args.slice(1).join(" ");
         const embed = new Discord.MessageEmbed();
+        if (message.author.id == kickUser.id) {
+          message.channel.send("You cannot kick yourself.");
+          return;
+        } else {
+          message.guild.member(kickUser).kick({ reason: kickReason });
+        }
         if (args.length > 1) {
           embed
             .setColor("#bd93f9")
-            .setTitle(`${banUser.tag} foi expulso`)
-            .addField("Motivo:", `${banReason}`, true)
-            .setThumbnail(banUser.displayAvatarURL());
+            .setTitle(`${kickUser.tag} was kicked`)
+            .addField("Motivo:", `${kickReason}`, true)
+            .setThumbnail(kickUser.displayAvatarURL());
         } else {
           embed
             .setColor("#bd93f9")
-            .setDescription(`**${banUser.tag}** foi expulso`)
+            .setDescription(`**${kickUser.tag}** was kicked`);
         }
         message.channel.send(embed);
       } catch {
-        message.channel.send("Não tenho permissão para expulsar membros!");
+        message.channel.send("I do not have permission to kick members!");
       }
     }
   },

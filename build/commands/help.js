@@ -28,8 +28,8 @@ function getCommands(message, args) {
             .setColor("#bd93f9")
             .setTitle(module.exports.name.toUpperCase())
             .setAuthor("RaphGL")
-            .addField("Comandos Normais", regularCommands.join(" "))
-            .addField("Comandos de moderação", moderationCommands.join(" "));
+            .addField("Regular Commands", regularCommands.join(" "))
+            .addField("Moderation Commands", moderationCommands.join(" "));
         message.channel.send(commandsHelp);
     }
     else {
@@ -43,7 +43,7 @@ function getCommands(message, args) {
                     .setColor("#bd93f9")
                     .setTitle(cmd.name.toUpperCase())
                     .setDescription(cmd.description)
-                    .addField("Como Usar", "`" + cmd.usage + "`");
+                    .addField("How to use", "`" + cmd.usage + "`");
                 message.channel.send(commandHelp);
                 break;
             }

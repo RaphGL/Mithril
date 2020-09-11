@@ -7,34 +7,40 @@ var config_json_1 = require("../config.json");
 var discord_js_1 = __importDefault(require("discord.js"));
 module.exports = {
     name: "kick",
-    description: "Expulsar o usuário do servidor",
-    usage: config_json_1.prefix + "kick <usu\u00E1rio> ...",
+    description: "Kick a user from the user",
+    usage: config_json_1.prefix + "kick <user> <reason>",
     hasArgs: true,
     commandType: "mod",
     guildOnly: true,
     execute: function (message, args) {
         if (message.member.hasPermission("KICK_MEMBERS")) {
             try {
-                var banUser = message.mentions.users.first();
-                var banReason = args.slice(1).join(" ");
-                message.guild.member(banUser).kick({ reason: banReason });
+                var kickUser = message.mentions.users.first();
+                var kickReason = args.slice(1).join(" ");
                 var embed = new discord_js_1.default.MessageEmbed();
+                if (message.author.id == kickUser.id) {
+                    message.channel.send("You cannot kick yourself.");
+                    return;
+                }
+                else {
+                    message.guild.member(kickUser).kick({ reason: kickReason });
+                }
                 if (args.length > 1) {
                     embed
                         .setColor("#bd93f9")
-                        .setTitle(banUser.tag + " foi expulso")
-                        .addField("Motivo:", "" + banReason, true)
-                        .setThumbnail(banUser.displayAvatarURL());
+                        .setTitle(kickUser.tag + " was kicked")
+                        .addField("Motivo:", "" + kickReason, true)
+                        .setThumbnail(kickUser.displayAvatarURL());
                 }
                 else {
                     embed
                         .setColor("#bd93f9")
-                        .setDescription("**" + banUser.tag + "** foi expulso");
+                        .setDescription("**" + kickUser.tag + "** was kicked");
                 }
                 message.channel.send(embed);
             }
             catch (_a) {
-                message.channel.send("Não tenho permissão para expulsar membros!");
+                message.channel.send("I do not have permission to kick members!");
             }
         }
     },
